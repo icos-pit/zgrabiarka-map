@@ -11,10 +11,10 @@ import fiona
 
 
 if __name__ == '__main__':
-    csv_data_gps = pd.read_csv('Dane_pozycja_GPS.csv')  # read gps data
+    csv_data_gps = pd.read_csv('data/8/Dane_pozycja_GPS.csv')  # read gps data
     #TODO: change label to correct names
     csv_data_gps.columns = ['time', 'lat', 'lat1', 'lat2', 'lat3', 'lon', 'lon1', 'lon2', 'lon3']  # naming columns
-    csv_data = pd.read_csv('Dane_razem.csv')  # read sensor data
+    csv_data = pd.read_csv('data/8/Dane_razem.csv')  # read sensor data
     csv_data.columns = ['time', 'column1', 'column2', 'column3', 'column4', 'column5', 'column6', 'column7',
                         'column8']  # naming columns
 
@@ -31,22 +31,12 @@ if __name__ == '__main__':
     data_gps['height'] = (csv_data['column3'] * 256) + csv_data['column4'] # Max 658, min 0
 
 
-
-
-
-
-
-
-
-
     data_gdf = gpd.GeoDataFrame(data_gps, geometry=gpd.points_from_xy(data_gps['longitude'], data_gps['latitude']))
 
     # print(data_gdf['color'])
 
-
     data_gdf.plot(column='height', cmap=mpl.colormaps['afmhot'], vmin = min(data_gps['height']),
-                  vmax = max(data_gps['height']))
-
+                  vmax = max(data_gps['height']), s = 3)
 
     data_gdf.explore(column='height')
     plt.show()
